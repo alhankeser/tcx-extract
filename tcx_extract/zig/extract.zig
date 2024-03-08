@@ -3,6 +3,8 @@ const print = std.debug.print;
 const stdout = std.io.getStdOut().writer();
 const spineTagName = "<Trackpoint>";
 
+// Usage: ./parse example.tcx Time
+
 pub fn main() !void {
     var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
     defer arena.deinit();
@@ -24,37 +26,31 @@ pub fn main() !void {
     defer allocator.free(targetTagEnd);
 
     var points = std.mem.split(u8, readBuf, spineTagName);
-    
 
-    // This looks worse than it is: 
-    // Say we have this: 
+    // This looks worse than it is:
+    // Say we have this:
     // <Trackpoint>
-            // <MyTargetValue>2024-03-03T06:01:29.000Z</MyTargetValue>
-            // <Altitude>123</Altitude>
+    // <MyTargetValue>2024-03-03T06:01:29.000Z</MyTargetValue>
+    // <Altitude>123</Altitude>
     // </Trackpoint>
     // We split the whole thing by <Trackpoint>
-    // We want a row per Trackpoint, otherwise, we could have incomplete data 
+    // We want a row per Trackpoint, otherwise, we could have incomplete data
     // If, say, MyTargetValue is null on some Trackpoints, we want to capture that null
     // We split the first substring by </MyTargetValue>
     // Then split the first resulting substring by <MyTargetValue>
     // And return the first substring, which should be the value in the tag
     // If I knew how to index the result of a mem.split, I could avoid using while()
-    var i: i8 = 0;
     _ = points.next();
     while (points.next()) |point| {
         var tagBeforeAfters = std.mem.split(u8, point, targetTagEnd);
         while (tagBeforeAfters.next()) |tagBeforeAfter| {
             var tagAfter = std.mem.split(u8, tagBeforeAfter, targetTagStart);
             _ = tagAfter.next();
-            while (tagAfter.next()) |tag| {                
+            while (tagAfter.next()) |tag| {
                 _ = try stdout.write(try std.fmt.allocPrint(allocator, "{s}", .{tag}));
                 break;
             }
             _ = try stdout.write("\n");
-            break;
-        }
-        i += 1;
-        if (i > 10) {
             break;
         }
     }

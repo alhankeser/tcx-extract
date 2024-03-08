@@ -1,4 +1,8 @@
-zig-cache/
-zig-out/
-venv/
-*~
+.DS_Store
+zig-cache
+zig-out
+.venv
+dist/
+build/
+*.egg-info/
+__pycache__
