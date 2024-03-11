@@ -8,4 +8,7 @@ def get_tag(filepath: str, tag_name: str) -> str:
 
 def extract(filepath: str, tag_name: str) -> list[str]:
     result = get_tag(filepath=filepath, tag_name=tag_name)
-    return result.split('\n')
+    if len(result) > 0:
+        return result.split('\n')[:-1]
+    else:
+        return []
