@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tcx_extract"
+version = "0.0.1.4"
+dependencies = [
+    "ziglang"
+]
+
+[tool.setuptools.packages]
+find = {}
+
+[tool.setuptools]
+include-package-data = true
+
+#Can't get this working
+#[project.scripts]
+#cli-name = "tcx_extract:build_zig"
