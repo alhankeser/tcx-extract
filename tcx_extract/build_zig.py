@@ -14,7 +14,7 @@ def build_zig():
     """
     Finds and moves the output of zig build to an expected location
     """
-    print("Buiding zig...")
+    print("Building zig...")
     subprocess.run(
         [python_exe, "-m", "ziglang", "build-exe", zig_filepath, "-O", "ReleaseFast"]
     )

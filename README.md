@@ -12,7 +12,7 @@ A speed-optimized data extractor for .tcx (Garmin) files.
 Can be installed using: 
 
 ```bash
-pip install git+https://github.com/alhankeser/tcx-extract.git
+pip install tcx-extract
 ```
 
 Then run this once to build the Zig executable:
