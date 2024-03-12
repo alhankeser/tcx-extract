@@ -24,8 +24,16 @@ tcx.build_zig()
 ## Usage
 ```python
 import tcx_extract as tcx
-print(tcx.extract("example.tcx", "Time"))
+watts = tcx.extract(filepath="example.tcx", tag_name="ns3:Watts")
+print(watts)
+
+# Output:
+# ['402', '380', '304'...]
 ```
+- By default, an item for every `<TrackPoint>` will be included in the resulting Python list.
+- `filepath` path to the .tcx file to extract from.
+- `tag_name` tag to get value from. 
+  - Nested or multiple tags are not currently supported.
 
 ## Support
 Please [create an issue](https://github.com/alhankeser/tcx-extract/issues/new) if you're having an issue or have questions. 
